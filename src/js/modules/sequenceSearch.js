@@ -16,11 +16,9 @@ const HmmerSearch = Backbone.Model.extend({
 const HmmerSearchResults = Backbone.View.extend({
     model: HmmerSearch,
     search: function (data) {
-        console.log(data);
-        data['output'] = 'json';
         $.post({
             url: "https://www.ebi.ac.uk/Tools/hmmer/search/phmmer",
-            data:$('#hmmerSearchForm').find(':input:not(:hidden)').serialize()+"&output=json",
+            data:$('#hmmerSearchForm').find(':input:not(:hidden)').serialize()+"&output=json&seqdb=pdb",
             success: function (a, b, c) {
                 console.log(a);
                 console.log(b);
@@ -54,7 +52,7 @@ function showAdvanced() {
 }
 
 $(document).ready(function () {
-    util.attachTabHandlers();
+    util.attachTabHandlers('sequence-search-tabs');
     $('a.example').click(fillExample);
     $('#show-advanced').click(showAdvanced);
     $('#submit').click(submitForm);

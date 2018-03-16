@@ -37,7 +37,7 @@ let StudyView = Backbone.View.extend({
                 that.model.attributes.publications = publications;
 
                 that.$el.html(that.template(that.model.toJSON()));
-                util.attachTabHandlers();
+                util.attachTabHandlers('study-tabs');
 
                 deferred.resolve(true);
             }

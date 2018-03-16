@@ -78,7 +78,7 @@ let RunView = Backbone.View.extend({
     },
     render: function (callback) {
         this.$el.html(this.template(this.model.toJSON()));
-        util.attachTabHandlers();
+        util.attachTabHandlers('run-tabs');
         callback();
         return this.$el;
     }

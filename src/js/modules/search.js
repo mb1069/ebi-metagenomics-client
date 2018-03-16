@@ -20,7 +20,7 @@ const Slider = require('../components/slider.js');
 util.checkAPIonline();
 
 util.setCurrentTab('#search-nav');
-util.attachTabHandlers();
+util.attachTabHandlers('results-tabs');
 
 const DEFAULT_QUERIES = ["domain_source:metagenomics_projects", "domain_source:metagenomics_samples", "domain_source:metagenomics_runs"]
 

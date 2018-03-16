@@ -151,14 +151,15 @@ export function hideTableLoadingGif() {
     $(".loading-gif-row").hide();
 }
 
-export function attachTabHandlers() {
+export function attachTabHandlers(mainTabSet) {
     // Deep linking
     const $dataTabs = $('[data-tabs]');
     new window.Foundation.Tabs($dataTabs);
     var link_tab = window.location.hash.substr(1);
     if (link_tab) {
         $($dataTabs).foundation('selectTab', link_tab);
-        $("div.tabs-panel:not('" + link_tab + "')").removeClass('active');
+        console.log(("div[data-tab-content='"+mainTabSet+"'] > div.tabs-panel:not('" + link_tab + "')"))
+        $("div[data-tab-content='"+mainTabSet+"'] > div.tabs-panel:not('" + link_tab + "')").removeClass('active');
         $('#' + link_tab).addClass('active');
     }
 
