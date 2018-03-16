@@ -85,6 +85,8 @@ module.exports = (env = {prod: false}) => {
             index: 'src/js/modules/index.js',
             search:
                 'src/js/modules/search.js',
+            sequenceSearch:
+                'src/js/modules/sequenceSearch.js',
             healthcheck:
                 'src/js/modules/healthcheck.js',
             submit:
@@ -103,7 +105,8 @@ module.exports = (env = {prod: false}) => {
                 'src/js/modules/about.js',
             help:
                 'src/js/modules/help.js',
-            biomes: 'src/js/modules/biomes.js',
+            biomes:
+                'src/js/modules/biomes.js',
             pipelines:
                 'src/js/modules/pipelines.js',
             pipeline:

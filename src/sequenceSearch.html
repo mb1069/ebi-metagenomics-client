@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head id="head">
+    <title>Sequence search &lt; EBI Metagenomics &lt; EMBL-EBI</title>
+    {{> partials/head this}}
+    <link rel="stylesheet" href="{{subfolder}}/js/sample.css" type="text/css" media="all"/>
+</head>
+
+<body class="level2"><!-- add any of your classes or IDs -->
+<div id="header-container">{{> partials/header this}}</div>
+<!-- Suggested layout containers / #content -->
+<div id="content">
+    <div id="main-content-area" class="row" role="main">
+        <div class="column small-12 medium-12 large-12">
+            <nav aria-label="You are here:" role="navigation">
+                <ul class="breadcrumbs columns">
+                    <li><a href="{{subfolder}}">Home</a></li>
+                    <li>
+                        <span class="show-for-sr">Current: </span> Sequence search
+                    </li>
+                </ul>
+            </nav>
+            <h2>Sequence search</h2>
+            <ul class="tabs" data-deep-link="true" data-update-history="true" data-deep-link-smudge="500" data-tabs
+                id="sequence-search-tabs">
+                <li class="tabs-title is-active"><a href="#searchTab" aria-selected="true">Search</a></li>
+                <li class="tabs-title"><a href="#resultsTab" aria-selected="true">Results</a></li>
+            </ul>
+            <div class="tabs-content" data-tab-content="sequence-search-tabs">
+                <div class="tabs-panel active" id="searchTab">
+                    <div class="row">
+                        <div class="columns text-center">
+                            <h3>protein sequence vs protein sequence database</h3>
+                            <h5>Paste a Sequence</h5>
+                        </div>
+                    </div>
+                    <form id="hmmerSearchForm">
+                        <div class="row">
+                            <div class="columns text-center">
+                                <p>Paste in your sequence or use the <a class="example">example</a><b>HELPER+TOOLTIP</b>
+                                </p>
+                                <textarea name="seq" id="seq" title="Sequence" class="search-form-elem"></textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row columns">
+                            <fieldset class="fieldset search-form-elem">
+                                <legend>Sequence database<b>HELPER+TOOLTIP</b></legend>
+                                <select name="seqdb">
+                                    <optgroup label="EMG peptide database">
+                                        <option value="all" selected="">All sequences</option>
+                                        <option value="partial">Partial sequences</option>
+                                        <option value="full" selected="">Full length sequences</option>
+                                        <!--
+                                        <option value="subset">Subset</option>
+                                        -->
+                                    </optgroup>
+                                </select>
+                            </fieldset>
+                        </div>
+                        <div class="row columns">
+                            <fieldset class="fieldset search-form-elem">
+                                <legend>Cut-Offs<b>HELPER+TOOLTIP</b></legend>
+                                <ul class="tabs" data-deep-link="false" data-update-history="false" data-tabs
+                                    id="cutoff-search-tabs">
+                                    <li class="tabs-title is-active"><a href="#evalueTab"
+                                                                        aria-selected="true">E-value</a>
+                                    </li>
+                                    <li class="tabs-title"><a href="#bitscoreTab" aria-selected="true">Bit score</a>
+                                    </li>
+                                </ul>
+                                <div class="tabs-content" data-tab-content="cutoff-search-tabs">
+                                    <div class="tabs-panel is-active" id="evalueTab">
+                                        <div class="row columns">
+                                            Significance E-values:
+                                            <div class="row">
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Sequence
+                                                        <input type="number" name="incE" value="5">
+                                                    </label>
+                                                </div>
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Hit
+                                                        <input type="number" name="incdomE" value="0.03">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            Report E-values:
+                                            <div class="row">
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Sequence
+                                                        <input type="number" name="E" value="5">
+                                                    </label>
+                                                </div>
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Hit
+                                                        <input type="number" name="domE" value="0.03">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tabs-panel" id="bitscoreTab">
+                                        <div class="row columns">
+                                            Significance bit scores:
+                                            <div class="row">
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Sequence
+                                                        <input type="number" name="incT" value="25.0">
+                                                    </label>
+                                                </div>
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Hit
+                                                        <input type="number" name="incdomT" value="22.0">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            Report bit scores:
+                                            <div class="row">
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Sequence
+                                                        <input type="number" name="T" value="7.0">
+                                                    </label>
+                                                </div>
+                                                <div class="columns small-6 medium-6 large-6">
+                                                    <label>
+                                                        Hit
+                                                        <input type="number" name="domT" value="5.0">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row columns advanced hidden">
+                            <div class="row columns">
+                                <fieldset class="fieldset search-form-elem">
+                                    <legend>Customise results</legend>
+                                    <div class="columns small-12 medium-8 large-8">
+                                        <fieldset class="two">
+                                            <legend>Select visible columns</legend>
+                                            <div class="input-column">
+                                                <label for="rowcount">
+                                                    <input type="checkbox" id='rowcount' name="cols" value="11">
+                                                    Row count
+                                                </label>
+                                                <label for="acc2">
+                                                    <input type="checkbox" id='acc2' name="cols" value="2">
+                                                    Secondary Accessions and Ids
+                                                </label>
+                                                <label for="desc">
+                                                    <input type="checkbox" id='desc' name="cols" value="3" checked>
+                                                    Description
+                                                </label>
+                                                <label for="kg">
+                                                    <input type="checkbox" id='kg' name="cols" value="9">
+                                                    Kingdom
+                                                </label>
+                                                <label for="ks">
+                                                    <input type="checkbox" id="ks" name="cols" value="5">
+                                                    Known Structure
+                                                </label>
+                                            </div>
+                                            <div class="input-column">
+                                                <label for="ident">
+                                                    <input type="checkbox" id="ident" name="cols" value="6">
+                                                    Identical Seqs</label>
+                                                <label for="nhits">
+                                                    <input type="checkbox" name="cols" id="nhits" value="7">
+                                                    Number of Hits
+                                                </label>
+                                                <label for="ninc">
+                                                    <input type="checkbox" name="cols" id="ninc" value="10">
+                                                    Number of Significant Hits
+                                                </label>
+                                                <label for="bscore">
+                                                    <input type="checkbox" name="cols" id="bscore" value="8">
+                                                    Bit Score
+                                                </label>
+                                                <label for="hpos">
+                                                    <input type="checkbox" name="cols" id="hpos" value="12">
+                                                    Hit Positions
+                                                </label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="columns small-12 medium-4 large-4">
+                                        <fieldset>
+                                            <legend>Rows per page</legend>
+                                            <div class="input-column">
+                                                <label for="r50">
+                                                    <input type="radio" id="r50" value="50" name="rows">
+                                                    50
+                                                </label>
+                                                <label for="r100">
+                                                    <input type="radio" id="r100" value="100" name="rows" checked>
+                                                    100
+                                                </label>
+                                                <label for="r250">
+                                                    <input type="radio" id="r250" value="250" name="rows">
+                                                    250
+                                                </label>
+                                            </div>
+                                            <div class="input-column">
+
+                                                <label for="r1000">
+                                                    <input type="radio" id="r1000" value="1000" name="rows">
+                                                    1000
+                                                </label>
+                                                <label for="r2500">
+                                                    <input type="radio" id="r2500" value="2500" name="rows">
+                                                    2500
+                                                </label>
+                                                <label for="rAll">
+                                                    <input type="radio" id="rAll" value="All" name="rows">
+                                                    All
+                                                </label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="row columns">
+                                <fieldset class="fieldset search-form-elem">
+                                    <legend>Gap penalties</legend>
+                                    <div class="row">
+                                        <div class="columns small-6 medium-6 large-6">
+                                            <label>
+                                                open
+                                                <input type="number" id="popen" name="popen" value="0.02">
+                                            </label>
+                                        </div>
+                                        <div class="columns small-6 medium-6 large-6">
+                                            <label>
+                                                extend
+                                                <input type="number" id="pextend" name="pextend" value="0.4">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="columns small-6 medium-6 large-6">
+                                            <label>
+                                                Substitution scoring matrix:
+                                                <select name="mx" id="matrix" required="" title="Scoring matrix">
+                                                    <option value="BLOSUM45">BLOSUM45</option>
+                                                    <option value="BLOSUM62" selected="">BLOSUM62</option>
+                                                    <option value="BLOSUM90">BLOSUM90</option>
+                                                    <option value="PAM30">PAM30</option>
+                                                    <option value="PAM70">PAM70</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="row columns">
+                                <fieldset class="fieldset search-form-elem">
+                                    <legend>Filters</legend>
+                                    <label>
+                                        <input name="nobias" id="nobias" type="checkbox" title="Bias filter">
+                                        Turn off bias composition filter</label>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row columns text-center">
+                        <button class="button" id="show-advanced">Show advanced</button>
+                        <button class="button" id="submit">Submit</button>
+                    </div>
+                </div>
+                <div class="tabs-panel" id="resultsTab">
+                    Results
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Optional local footer (insert citation / project-specific copyright / etc here -->
+<!-- <footer id="local-footer" class="local-footer" role="local-footer"> -->
+<!-- <div class="row"> -->
+<!-- <span class="reference">How to reference this page: ...</span> -->
+<!-- </div> -->
+<!-- </footer> -->
+<!-- End optional local footer -->
+<!-- </div> -->
+<!-- End suggested layout containers / #content -->
+
+<div id="footer">
+    {{>partials/elixir}}
+    {{>partials/footer}}
+</div>
+
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="../static/libraries/jquery.liveFilter.js"></script>
+<script defer="defer" src="../static/js/script.js"></script>
+
+<!-- The Foundation theme JavaScript -->
+
+<script src="{{subfolder}}/static/js/foundation.js"></script>
+<script src="{{subfolder}}/static/js/foundationExtendEBI.js"></script>
+<script type="text/JavaScript">
+    $(document).ready(function () {
+        $(document).foundation();
+        $(document).foundationExtendEBI();
+    });
+</script>
+
+<script src="{{subfolder}}/js/sequenceSearch.js"></script>
+<!-- Google Analytics details... -->
+<!-- Change UA-XXXXX-X to be your util's ID -->
+<!--
+<script>
+  window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+  Modernizr.load({
+    load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+  });
+</script>
+-->
+</body>
+
+<!--Google Map marker API-->
+<!--<script id="marker-template" type="text/x-handlebars-template">-->
+<!--<div class="row">-->
+<!--<div class="columns small-1 medium-1 large-1"></div>-->
+<!--<div class="columns small-11 medium-11 large-11">-->
+<!--<h2>Sample - {{this.id}}</h2>-->
+<!--&lt;!&ndash;<p>{{this.name}}</p>&ndash;&gt;-->
+
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row columns">-->
+<!--<p>{{this.desc}}</p>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="columns">-->
+<!--<ul>-->
+<!--<li>-->
+<!--Classification: {{this.classification}}-->
+<!--</li>-->
+<!--<li>-->
+<!--Collection date: {{this.collection_date}}-->
+<!--</li>-->
+<!--<li>-->
+<!--Lat/Long: {{this.lat}}, {{this.lng}}-->
+<!--</li>-->
+<!--<li>-->
+<!--Sampling depth: TODO-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row centered">-->
+<!--<a href="{{this.sample_url}}" class="button centered">View more</a>-->
+<!--</div>-->
+<!--</script>-->
+</html>

@@ -170,6 +170,7 @@ export function attachTabHandlers() {
 
         // Remove active class from all sibling buttons
         var tabId = $(this).attr('href');
+        console.log(tabId);
         var tabGroup = tabButtonContainer.attr('id');
         $("[data-tab-content=" + tabGroup + "] > .tabs-panel").removeClass('active');
         $(tabId).addClass('active');
