@@ -1,5 +1,4 @@
 const Backbone = require('backbone');
-const Backform = require('backform');
 const _ = require('underscore');
 const util = require('../util');
 
