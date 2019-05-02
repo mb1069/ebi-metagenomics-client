@@ -18,11 +18,12 @@ module.exports = class MapHandler {
      * @param {[object]} samples if true add tooltips to markers
      */
     constructor(elementId, samples) {
-        let minLat = 180;
-        let maxLat = -180;
-        let minLng = 180;
-        let maxLng = -180;
+        let minLat = Number.MAX_SAFE_INTEGER;
+        let maxLat = Number.MIN_SAFE_INTEGER;
+        let minLng = Number.MAX_SAFE_INTEGER;
+        let maxLng = Number.MIN_SAFE_INTEGER;
         let features = [];
+
         for (let i = 0; i < samples.length; i++) {
             const attr = samples[i]['attributes'];
             let coords = [attr['longitude'], attr['latitude']];
@@ -40,7 +41,6 @@ module.exports = class MapHandler {
                     maxLat = coords[1];
                 }
                 const feature = new ol.Feature(new geom.Point(coords));
-                feature.link = '<a href=\''+url+'\'>'+attr['sample_accession']+'</a>';
                 features.push(feature);
             }
         }
@@ -72,7 +72,7 @@ module.exports = class MapHandler {
                             })
                         }),
                         text: new styleLib.Text({
-                            text: size === 1 ? feature.link : size.toString(),
+                            text: size.toString(),
                             fill: new styleLib.Fill({
                                 color: '#fff'
                             })
@@ -89,9 +89,20 @@ module.exports = class MapHandler {
                 url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png?lang=en'
             })
         });
+        // Enforce minimum zoom length
+        const lngDiff = maxLng - minLng;
+        if (lngDiff < 1000000) {
+            minLng -= 500000;
+            maxLng += 500000;
+        }
+        const latDiff = maxLat - minLat;
+        if (latDiff < 1000000) {
+            minLat -= 500000;
+            maxLat += 500000;
+        }
         let ext = extent.boundingExtent([[minLng, minLat], [maxLng, maxLat]]);
         ext = proj.transformExtent(ext, proj.get('EPSG:3857'), proj.get('EPSG:3857'));
-
+        $('#' + elementId).empty(); // Remove loading icons
         let map = new ol.Map({
             target: elementId,
             controls: controlLib.defaults().extend([

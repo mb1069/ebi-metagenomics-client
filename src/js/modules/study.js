@@ -3,6 +3,7 @@ const _ = require('underscore');
 const api = require('mgnify').api(process.env.API_URL);
 const Map = require('../components/map');
 const util = require('../util');
+const Commons = require('../commons');
 
 require('../../../static/js/jquery.liveFilter.js');
 
@@ -42,14 +43,21 @@ let MapData = Backbone.View.extend({
         this.collection = params['collection'];
         this.study_accession = params['study_accession'];
         const that = this;
+        this.fetch_params = {study_accession: that.study_accession, page_size: 250};
         this.collection.fetch({
-            data: $.param({study_accession: that.study_accession}),
+            data: $.param(this.fetch_params),
             success(response, meta) {
                 let data = response.models;
                 that.data = that.data.concat(data);
                 if (meta.links.next !== null) {
-                    that.url = meta.links.next;
-                    that.fetchAll();
+                    const maxpage = meta.meta.pagination.pages;
+                    const fetches = [];
+                    for (let x = 2; x <= maxpage; x++) {
+                        fetches.push(that.fetchPage(x));
+                    }
+                    $.when(...fetches).then(() => {
+                        new Map('map', that.data, true, studyId);
+                    });
                 } else {
                     new Map('map', that.data, true, studyId);
                 }
@@ -58,19 +66,14 @@ let MapData = Backbone.View.extend({
             }
         });
     },
-    fetchAll() {
+    fetchPage(page) {
         const that = this;
-        this.collection.fetch({
-            data: $.param({study_accession: that.study_accession}),
-            success(response, meta) {
+        this.fetch_params['page'] = page;
+        return this.collection.fetch({
+            data: $.param(this.fetch_params),
+            success(response) {
                 let data = response.models;
                 that.data = that.data.concat(data);
-                if (meta.links.next !== null) {
-                    that.collection.url = meta.links.next;
-                    that.fetchAll();
-                } else {
-                    new Map('map', that.data, true);
-                }
             }
         });
     }
