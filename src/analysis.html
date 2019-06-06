@@ -38,10 +38,10 @@
             </ul>
         </nav>
         <h2>Analysis <%= analysis_accession %></h2>
-        <section>
-            <h4><a href="<%= other_analyses %>">Other analyses</a>
-            </h4>
-        </section>
+        <!--<section>-->
+            <!--<h4><a href="<%= other_analyses %>">Other analyses</a>-->
+            <!--</h4>-->
+        <!--</section>-->
 
         <ul class="tabs" data-deep-link="true" data-update-history="true" data-deep-link-smudge="500" data-tabs
             id="run-tabs">
@@ -51,6 +51,7 @@
             <li class="tabs-title"><a href="#functional">Functional analysis</a></li>
             <li class="tabs-title"><a href="#abundance">Abundance and comparison</a></li>
             <li class="tabs-title"><a href="#download">Download</a></li>
+            <li class="tabs-title"><a href="#other-analyses">Other analyses</a></li>
         </ul>
         <div class="tabs-content" data-tab-content="run-tabs">
             <div class="tabs-panel active" id="overview">
@@ -276,6 +277,27 @@
                 distribution.
                 <div id="abundance-disp">
                     <img id="abundance-chart" class='abundance-chart' src="">
+                </div>
+            </div>
+            <div class="tabs-panel" id="other-analyses">
+                <div class="row columns">
+                    <h3>Third party analyses</h3>
+                    <p><a class="ext" href="">MASTER</a></p>
+                </div>
+                <div class="row columns">
+                    <h3>Other MGnify analyses</h3>
+                    <table class="analyses-table">
+                        <thead>
+                        <tr>
+                            <th>Analysis accession</th>
+                            <th>Experiment type</th>
+                            <th>Instrument model</th>
+                            <th>Instrument platform</th>
+                            <th data-sortby="pipeline" class="sort-desc">Pipeline version</th>
+                        </tr>
+                        </thead>
+                        <tbody id=""><tr><td><a href="/metagenomics/analyses/MGYA00246324">MGYA00246324</a></td><td>assembly</td><td>Illumina MiSeq</td><td>ILLUMINA</td><td class="pipeline"><a href="/metagenomics/pipelines/4.1">4.1</a></td></tr></tbody>
+                    </table>
                 </div>
             </div>
         </div>
